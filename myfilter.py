@@ -145,7 +145,7 @@ def getcontent(lst, title, authorset):
     content = ['<p>' + x.strip() + '</p>' for x in lst[startindex:endindex + maxindex] if len(x.strip()) > 0]
     return content
 
-
+# title, ctt, date, visitCount,lessContent 标题，带<p>的文本，日期，浏览数，不带<p>的文本
 def run(url):
     ctthtml = getcontentfromweb(url)
     title, content, date, visitCount = filter_tags(ctthtml)
@@ -156,10 +156,11 @@ def run(url):
     return title, ctt, date, visitCount,lessContent
 
 if __name__ == '__main__':
-    url = "http://www.wzrb.com.cn/article877241show.html"
+    url = "http://www.wzrb.com.cn/article879007show.html"
     title, ctt, date, visitCount,lessContent = run(url)
-    print(title)
-    print(visitCount)
-    print(date)
     print(ctt)
     print(lessContent)
+    print(visitCount)
+    print(date)
+    print(title)
+
