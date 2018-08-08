@@ -22,30 +22,22 @@ first_headers = {
         "Host": "www.wzrb.com.cn",
         "Proxy-Connection": "keep-alive",
         "Upgrade-Insecure-Requests": "1",
-        "User-Agent": ua.random ,
+        "User-Agent": ua.random,
         }
 
 
-def getip():
-    ip = random.choice(ip_list)
-    proxies = {
-        'http': ip,
-        'https': ip,
-    }
-    return  proxies
-
+# 随机一个User-Agent
 def get_headers():  
     first_headers['User-Agent'] = ua.random 
     print(first_headers['User-Agent'])
     return first_headers
 
+# 返回response
 def getcontentfromweb(src):
     headers = get_headers()
-    # proxies = getip()
-    # obj = requests.get(src, headers=headers, proxies=proxies, timeout=8)
     obj = requests.get(src, headers=headers, timeout=8)
-    # obj.encoding = 'gb2312'
-
+    
+    # 自动检测编码，更换编码，防止乱码
     try:
         result = chardet.detect(obj.content)
         obj.encoding = str(result['encoding'])
@@ -55,6 +47,7 @@ def getcontentfromweb(src):
     return obj.text
 
 
+# 去掉html标签
 def getTitle(html):
     titleFilter = r'<title>([\s\S]*?)</title>'
     h1Filter = r'<h1.*?>(.*?)</h1>'
@@ -80,6 +73,7 @@ def getTitle(html):
     return title
 
 
+# 日期
 def getDate(html):
     text = re.sub('(?is)<.*?>', '', html)
     reg = r'((\d{4}|\d{2})(\-|\/)\d{1,2}\3\d{1,2})(\s?\d{2}:\d{2})?|(\d{4}年\d{1,2}月\d{1,2}日)(\s?\d{2}:\d{2})?'
@@ -96,6 +90,7 @@ def getDate(html):
     return dateStr
 
 
+# 更换reg获得浏览数
 def getVisit(html):
     text = re.sub('(?is)<.*?>', '', html)
     reg = r'浏览：(\d*)'
